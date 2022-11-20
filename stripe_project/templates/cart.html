@@ -4,7 +4,7 @@
 
 {% block head %}
 <head>
-    <title>Buy cool new product</title>
+    <title> Your shopping cart </title>
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
     <script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -12,7 +12,7 @@
 
 {% block content %}
 <body>
-    {% for price in prices %}
+    {% for price in order.prices %}
         <section>
             <div class="product">
                 <div class="description">
@@ -20,22 +20,32 @@
                     <h3>{{ price.item.description }}</h3>
                     <div>
                         <h5>${{ price.get_display_price }}</h5>
-                        <form action="{% url 'buy' price.id %}" method="POST">
+                        <form action="{% url 'create-checkout-session' price.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit"> Buy now </button>
                         </form>
-                        <form action="{% url 'get-item' price.id %}">
+                        <form action="{% url 'item' %}">
                             <button> Have a closer look </button>
-                        </form>
-                        <form action="{% url 'cart' price.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit"> Add to cart </button>
                         </form>
                     </div>
                 </div>
             </div>
-        </section>    
+        </section>  
     {% endfor %}
+    <section>
+        <div class="total">
+            <div class="description">
+                <h3>{{ Your total: }}</h3>
+                <div>
+                    <h5>${{ order.get_full_price }}</h5>
+                    <form action="{% url 'create-checkout-session' price.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit"> Buy now </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section> 
 </body>
 {% endblock %}
 </html>

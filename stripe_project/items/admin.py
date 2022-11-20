@@ -20,7 +20,3 @@ class ItemAdmin(admin.ModelAdmin):
     inlines = [PriceInlineAdmin, ]
     list_display = ['name', 'description']
     list_filter = ['name', ]
-
-
-
-

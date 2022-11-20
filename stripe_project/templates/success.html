@@ -1,14 +1,14 @@
 <!DOCTYPE html>
+{% extends 'base.html' %}
 <html>
-{% load static%}
+
+{% block head %}
 <head>
   <title>Thanks for your order!</title>
-  <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image">
-  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
+{% endblock %}
+
+{% block content %}
 <body>
   <section>
     <p>
@@ -17,4 +17,5 @@
     </p>
   </section>
 </body>
+{% endblock %}
 </html>

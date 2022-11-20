@@ -3,8 +3,8 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from django.views import View
-from django.shortcuts import redirect
-from .models import Price, Item
+from django.shortcuts import redirect, render
+from .models import Price, Item, Order
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -20,13 +20,36 @@ class CancelView(TemplateView):
     template_name = "cancel.html"
 
 
-class CreateCheckoutSessionView(View):
+class CreateSingleCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         price = Price.objects.get(id=self.kwargs['pk'])
         domain = 'https://yourdomain.com'
         if settings.DEBUG:
             domain = 'http://127.0.0.1:8000'
         checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price': price.stripe_price_id,
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url=domain + '/success/',
+            cancel_url=domain + '/cancel/',
+        )
+        return redirect(checkout_session.url)
+
+
+class CreateOrderCheckoutSessionView(View):
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(id=self.kwargs['pk'])
+        prices = order.prices
+        domain = 'https://yourdomain.com'
+        if settings.DEBUG:
+            domain = 'http://127.0.0.1:8000'
+        for price in prices:
+            checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[
                 {
@@ -53,6 +76,20 @@ class ItemLandingPageView(TemplateView):
         })
         return context
 
+
+class ItemPageView(TemplateView):
+    template_name = "item.html"
+
+    def get_context_data(self, **kwargs):
+        price = Price.objects.get(id=self.kwargs['pk'])
+        context = super(ItemPageView,
+                        self).get_context_data(**kwargs)
+        context.update({
+            "price": price,
+        })
+        return context
+
+
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body
@@ -64,13 +101,10 @@ def stripe_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
-        # Invalid payload
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
         return HttpResponse(status=400)
 
-    # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         customer_email = session["customer_details"]["email"]
@@ -86,12 +120,6 @@ def stripe_webhook(request):
         price_id = intent["metadata"]["price_id"]
         price = Price.objects.get(id=price_id)
         item = price.item
-#        send_mail(
-#            subject="Here is your product",
-#            message=f"Thanks for your purchase. The URL is {item.url}",
-#            recipient_list=[customer_email],
-#            from_email="your@email.com"
-#        )
 
     return HttpResponse(status=200)
 
@@ -104,7 +132,8 @@ class StripeIntentView(View):
             price = Price.objects.get(id=self.kwargs["pk"])
             intent = stripe.PaymentIntent.create(
                 amount=price.price,
-                currency='usd',
+                currency1='usd',
+                currency2='eur',
                 customer=customer['id'],
                 metadata={
                     "price_id": price.id
@@ -132,7 +161,16 @@ class CustomPaymentView(TemplateView):
         return context
 
 
-class AddToCart(TemplateView):
-    template_name = 'cart.html'
+def add_to_cart(request, pk):
+    price = Price.objects.get(id=pk)
+    order = Order.objects.get_or_create(user=request.user)
+    context = {
+        "price": price,
+        "order": order,
+        "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY
+    }
+    return render(request, 'cart.html', context)
 
-    pass
+
+class ShowCart(View):
+    template_name='cart.html'

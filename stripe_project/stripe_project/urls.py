@@ -3,22 +3,28 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from items.views import (
-    CreateCheckoutSessionView,
+    CreateSingleCheckoutSessionView,
+    CreateOrderCheckoutSessionView,
     SuccessView,
     CancelView,
     ItemLandingPageView,
     stripe_webhook,
     StripeIntentView,
     CustomPaymentView,
-    AddToCart,
+    add_to_cart,
+    ShowCart,
+    ItemPageView,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('add-to-cart/', AddToCart.as_view(), name='cart',),
+    path('cart/<pk>/', add_to_cart, name='add-to-cart'),
+    path('cart/', ShowCart.as_view(), name='cart'),
     path('cancel/', CancelView.as_view(), name='cancel'),
     path('success/', SuccessView.as_view(), name='success'),
-    path('create-checkout-session/<pk>/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
+    path('buy/<pk>/', CreateSingleCheckoutSessionView.as_view(), name='buy'),
+    path('get/<pk>/', ItemPageView.as_view(), name='get-item'),
+    path('order/<pk>/', CreateOrderCheckoutSessionView.as_view(), name='buy-order'),
     path('webhooks/stripe/', stripe_webhook, name='stripe-webhook'),
     path('create-payment-intent/<pk>/', StripeIntentView.as_view(), name='create-payment-intent'),
     path('custom-payment/', CustomPaymentView.as_view(), name='custom-payment'),

@@ -1,14 +1,18 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-STRIPE_PUBLIC_KEY = "pk_test_51M5Hb0CgdaEkEudL99WJjN6tNxlNYQ7o3ahjbPuO1hGdVCv46ArrJCcWoYkBQ3uI9atUYd1IxAsLff1OBle1q3Mb00FIm0wir3"
-STRIPE_SECRET_KEY = "sk_test_51M5Hb0CgdaEkEudLU4dfC4nnE5jNJg7OhRdR6SIosS3ekIn3sS2Jj840UcXCLkL4oGUUxfR08zLNAActdTSg5utf00CoWaIWAy"
-STRIPE_WEBHOOK_SECRET = "whsec_3d713ef61b7ba455f0f9474806481ddef9ef46408011709e42dfea8f6ef4981a"
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
-SECRET_KEY = 'django-insecure-f+#f(1)8u^6%4de_3@lh%%7lwl2#1bylxwo_f745)kjy=0dl%s'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
@@ -55,9 +59,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stripe_project.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
