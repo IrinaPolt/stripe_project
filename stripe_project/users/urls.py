@@ -1,6 +1,6 @@
-from django.urls import path, include
-from .views import SignUp
+from django.urls import include, path
 
+from .views import SignUp
 
 app_name = 'users'
 

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Item, Price, Order, PriceInOrder, Tax, Discount
+
+from .models import Discount, Item, Order, Price, PriceInOrder, Tax
 
 
 @admin.register(Tax)
