@@ -1,7 +1,6 @@
 body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   background: #6b3508;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
   'Helvetica Neue', 'Ubuntu', sans-serif;
@@ -36,20 +35,22 @@ section {
   justify-content: center;
 }
 .total {
+  display: inline-block;
   background: #c66900;
   border-radius: 10px;
+  width: 700px;
+  margin: 20px;
+  padding: 10px 20px;
 }
 p {
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 20px;
   letter-spacing: -0.154px;
   color: #292005;
   height: 100%;
   width: 100%;
-  padding: 0 20px;
-  display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -63,7 +64,6 @@ a {
   color: #f4da16;
   height: 100%;
   width: 100%;
-  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,20 +83,21 @@ h5 {
   line-height: 20px;
   letter-spacing: -0.154px;
   color: #392101;
-  margin: 0;
+  margin: 5px;
 }
 h5 {
   opacity: 0.5;
 }
+
 button {
   height: 36px;
   background: hsl(25, 95%, 30%);
   color: rgb(212, 206, 155);
-  width: 700px;
   font-size: 14px;
   border: 0;
   font-weight: 500;
   cursor: pointer;
+  margin: 5px;
   letter-spacing: 0.6;
   border-radius: 0 0 6px 6px;
   transition: all 0.2s ease;
@@ -104,4 +105,53 @@ button {
 }
 button:hover {
   opacity: 0.8;
+}
+
+.product-card {
+  display: inline-block;
+  width: 450px;
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #d0b64b;
+  border-radius: 10px;
+  border: 2px;
+}
+
+.product-card-cart {
+  display: inline-block;
+  width: 700px;
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #d0b64b;
+  border-radius: 10px;
+  border: 2px;
+}
+
+.message {
+  display: inline-block;
+  margin-top: 50%;
+  margin-left: 70%;
+  width: 500px;
+  height: 80px;
+  background-color: #d0b64b;
+  border-radius: 10px;
+  border: 2px;
+}
+
+.signup {
+  padding: 10px 0 10px 50px;
+  margin: 50px 35%;
+  width: 700px;
+  height: 400px;
+  background-color: #d0b64b;
+  border-radius: 10px;
+  border: 2px;
+}
+
+.card-body {
+  text-align: left;
+}
+
+.text-muted {
+  opacity: 0.5;
 }

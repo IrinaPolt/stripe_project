@@ -13,7 +13,7 @@ from .models import Discount, Item, Order, Price, PriceInOrder
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-DOMAIN = 'http://51.250.84.171'
+DOMAIN = 'http://158.160.36.223/'
 
 
 class SuccessView(TemplateView):
@@ -236,21 +236,29 @@ class ShowCart(TemplateView):
     template_name = 'items/cart.html'
 
     def get_context_data(self, **kwargs):
-        order = Order.objects.get(user=self.request.user)
-        prices = PriceInOrder.objects.filter(order=order)
-        total_usd = 0
-        total_eur = 0
-        for i in prices:
-            total_usd += float(i.get_cost_usd())
-            total_eur += float(i.get_cost_eur())
-        order.total_usd = total_usd
-        order.total_eur = total_eur
-        context = super(ShowCart,
-                        self).get_context_data(**kwargs)
-        context.update({
-            'order': order,
-            'prices': prices,
-            'total_usd': "{:.2f}".format(total_usd),
-            'total_eur': "{:.2f}".format(total_eur),
-        })
-        return context
+        order, created = Order.objects.get_or_create(user=self.request.user)
+        if created:
+            context = super(ShowCart,
+                            self).get_context_data(**kwargs)
+            context.update({
+                'message': 'Ваша корзина пуста, скорее приступайте к покупкам!'
+            })
+            return context
+        else:
+            prices = PriceInOrder.objects.filter(order=order)
+            total_usd = 0
+            total_eur = 0
+            for i in prices:
+                total_usd += float(i.get_cost_usd())
+                total_eur += float(i.get_cost_eur())
+            order.total_usd = total_usd
+            order.total_eur = total_eur
+            context = super(ShowCart,
+                            self).get_context_data(**kwargs)
+            context.update({
+                'order': order,
+                'prices': prices,
+                'total_usd': "{:.2f}".format(total_usd),
+                'total_eur': "{:.2f}".format(total_eur),
+            })
+            return context

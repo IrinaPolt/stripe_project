@@ -12,48 +12,41 @@
 
 {% block content %}
 <body>
+  {% if message %}
+  <div class="message"> <p> {{ message }} </p> </div>
+  {% else %}
     {% for price in prices %}
-            <div class="product">
-                <div class="description">
-                    <h2>{{ price }}</h2>
-                    <div>
-                        <select name="currency" class="form-control" id="price_stripe_id">
-                            <option disabled> Цена товара </option>
-                            <option value="usd"> ${{ price.get_cost_usd }} </option>
-                            <option value="eur"> €{{ price.get_cost_eur }} </option>
-                        </select>
-                        <h3> количество: {{ price.quantity }}</h3>
-                        <form action="{% url 'items:add-to-cart' price.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit"> добавить </button>
-                        </form>
-                        <form action="{% url 'items:delete-from-cart' price.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit"> удалить </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <br>
+      <div class="product-card-cart">
+        <h2 style="float: left">{{ price }}</h2>
+          <select name="currency" class="form-control" id="price_stripe_id" style="float: left; margin: 30px 20px;">
+            <option disabled> Цена товара </option>
+            <option value="usd"> ${{ price.get_cost_usd }} </option>
+            <option value="eur"> €{{ price.get_cost_eur }} </option>
+          </select>
+        <h3 style="float: right; margin: 20px 5px"> количество: {{ price.quantity }}</h3>
+        <form action="{% url 'items:add-to-cart' price.price.id %}" method="POST" style="float: left; margin: 20px 5px;">
+          {% csrf_token %}
+          <button type="submit"> добавить </button>
+        </form>
+        <form action="{% url 'items:delete-from-cart' price.price.id %}" method="POST" style="float: left; margin: 20px 5px">
+          {% csrf_token %}
+          <button type="submit" style="margin: 5px 0"> удалить </button>
+        </form>
+      </div>
     {% endfor %}
-        <div class="total">
-            <div class="description">
-                <br>
-                <h2> Your total: </h2>
-                <div>
-                    <form action="{% url 'items:buy-order' order.id %}" method="POST">
-                        {% csrf_token %}
-                        <select name="currency" class="form-control" id="total">
-                            <option disabled> Выберите валюту оплаты </option>
-                            <option value="usd"> ${{ total_usd }} </option>
-                            <option value="eur"> €{{ total_eur}} </option>
-                        </select>
-                        <br>
-                        <button type="submit"> Оплатить </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="total">
+      <h2 style="float: left"> Общая сумма покупки: </h2>
+      <form action="{% url 'items:buy-order' order.id %}" method="POST" style="float: left; margin: 20px 30px 0 30px;">
+        {% csrf_token %}
+        <select name="currency" class="form-control" id="total">
+          <option disabled> Выберите валюту оплаты </option>
+          <option value="usd"> ${{ total_usd }} </option>
+          <option value="eur"> €{{ total_eur}} </option>
+        </select>
+        <button type="submit" style="margin-left: 20px"> оплатить </button>
+      </form>
+    </div>
+  {% endif %}
 </body>
 {% endblock %}
 </html>

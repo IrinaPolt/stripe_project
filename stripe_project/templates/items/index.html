@@ -12,6 +12,7 @@
 
 {% block content %}
 <body>
+    <br>
     <div class="header">
         {% if request.user.is_authenticated %}
             <a href="{% url 'items:cart'%}"> Моя корзина</a>
@@ -21,40 +22,37 @@
             <a href="{% url 'users:signup' %}"> Зарегистрироваться </a>
         {% endif %}
     </div>
-    <br>
     {% for price in prices %}
-        <section>
-            <div class="description">
-                <h2>{{ price.item.name }}</h2>
-                <h3>{{ price.item.description }}</h3>
-                <div>
-                    <h5>{{ price.tax }}</h5>
-                    <h5>{{ price.discount }}</h5>
-                    <form action="{% url 'items:buy' price.id %}" method="POST">
-                        {% csrf_token %}
-                        <select name="currency" class="form-control" id="price_stripe_id">
-                            <option disabled> Цена товара </option>
-                            <option value="usd"> ${{ price.get_display_price_usd }} </option>
-                            <option value="eur"> €{{ price.get_display_price_eur }} </option>
-                        </select>
-                        <button type="submit"> К оплате </button>
-                    </form>
-                    <form action="{% url 'items:get-item' price.id %}">
-                        <button> Подробнее </button>
-                    </form>
-                    {% if request.user.is_authenticated %}
-                        <form action="{% url 'items:add-to-cart' price.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit"> Добавить в корзину </button>
-                        </form>
-                    {% else %}
-                        <form action="{% url 'users:login' %}">
-                            <button> Авторизуйтесь для добавления в корзину </button>
-                        </form>
-                    {% endif %}
-                </div>
-            </div>
-        </section>    
+      <div class="product-card">
+        <h2>{{ price.item.name }}</h2>
+        <h3>{{ price.item.description }}</h3>
+        <div>
+          <h5>{{ price.tax }}</h5>
+          <h5>{{ price.discount }}</h5>
+          <form action="{% url 'items:buy' price.id %}" method="POST" style="float: left">
+            {% csrf_token %}
+            <select name="currency" class="form-control" id="price_stripe_id">
+              <option disabled> Цена товара </option>
+              <option value="usd"> ${{ price.get_display_price_usd }} </option>
+              <option value="eur"> €{{ price.get_display_price_eur }} </option>
+            </select>
+            <button type="submit"> К оплате </button>
+          </form>
+          <form action="{% url 'items:get-item' price.id %}" style="float: right;">
+            <button> Подробнее </button>
+          </form>
+          {% if request.user.is_authenticated %}
+            <form action="{% url 'items:add-to-cart' price.id %}" method="POST" style="float: right;">
+              {% csrf_token %}
+              <button type="submit"> Добавить в корзину </button>
+            </form>
+          {% else %}
+            <form action="{% url 'users:login' %}" style="float: right;">
+              <button> Авторизуйтесь для добавления в корзину </button>
+            </form>
+          {% endif %}
+        </div>
+      </div>    
     {% endfor %}
 </body>
 {% endblock %}

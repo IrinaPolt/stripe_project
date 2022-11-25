@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section>
+<div class="message" style="padding: 10px">
 {% if form.errors %}
   <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -21,7 +21,7 @@
 
 <tr>
   <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
+  <td style="padding: 0 10px">{{ form.username }}</td>
 </tr>
 
 <tr>
@@ -37,4 +37,4 @@
 <p><a href="{% url 'users:password_reset' %}">Lost password?</a></p>
 
 {% endblock %}
-</section>
+</div>

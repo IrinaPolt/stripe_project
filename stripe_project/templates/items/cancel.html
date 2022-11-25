@@ -11,9 +11,10 @@
 
 {% block content %}
 <body>
-  <section>
-    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
-  </section>
+  <div class="message">
+    <p> Забыли добавить что-то в корзину? Загляните в наш каталог и не забудьте вернуться к заказу! </p>
+    <a href="{% url 'items:index'%}"> Вернуться к списку товаров </a>
+  </div>
 </body>
 {% endblock %}
 </html>

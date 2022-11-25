@@ -3,10 +3,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
 
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
@@ -60,7 +59,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stripe_project.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE'),
@@ -71,7 +69,6 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT')
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

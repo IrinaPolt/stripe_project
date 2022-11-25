@@ -64,4 +64,4 @@ docker-compose exec web python manage.py loaddata fixtures.json
 docker-compose down
 ```
 
-## http://51.250.84.171/
+## http://stripeshop.ddns.net/
