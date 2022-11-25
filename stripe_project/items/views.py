@@ -104,8 +104,8 @@ class CreateOrderCheckoutSessionView(View):
             discounts=[{'coupon': discount}],
             automatic_tax={'enabled': True},
             shipping_address_collection={
-                    'allowed_countries': ['US'],
-                },
+                'allowed_countries': ['US'],
+            },
             success_url=domain + '/success/',
             cancel_url=domain + '/cancel/',
         )
