@@ -124,7 +124,7 @@ class PriceInOrder(models.Model):
         on_delete=models.CASCADE
     )
     quantity = models.PositiveIntegerField(
-        default=1)
+        default=0)
 
     class Meta:
         verbose_name = 'Товар в заказе'
