@@ -23,11 +23,11 @@
                             <option value="eur"> €{{ price.get_cost_eur }} </option>
                         </select>
                         <h3> количество: {{ price.quantity }}</h3>
-                        <form action="{% url 'items:add-to-cart' price.id %}" method="POST">
+                        <form action="{% url 'items:add-to-cart' price.price.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit"> добавить </button>
                         </form>
-                        <form action="{% url 'items:delete-from-cart' price.id %}" method="POST">
+                        <form action="{% url 'items:delete-from-cart' price.price.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit"> удалить </button>
                         </form>
