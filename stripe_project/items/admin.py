@@ -1,6 +1,16 @@
 from django.contrib import admin
-from .models import Item, Price, Order, PriceInOrder
+from .models import Item, Price, Order, PriceInOrder, Tax, Discount
 
+
+@admin.register(Tax)
+class TaxAdmin(admin.ModelAdmin):
+    list_display = ['name', 'rate']
+    list_filter = ['name', ]
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ['name', 'size']
+    list_filter = ['name', 'size']
 
 class PriceInlineAdmin(admin.TabularInline):
     model = Price

@@ -2,7 +2,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #097919;
+  background: #6b3508;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
   'Helvetica Neue', 'Ubuntu', sans-serif;
   margin: 0;
@@ -10,21 +10,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 section {
-  background: #a5ec92;
+  background: #d0b64b;
   display: flex;
-  flex-flow: row;
-  width: 300px;
-  height: 200px;
+  width: 700px;
+  height: 250px;
   border-radius: 6px;
   justify-content: space-between;
 }
-.product {
+.header {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.product {
+  background: #d0b64b;
+  display: flex;
+  width: 700px;
+  height: 150px;
+  border-radius: 10px;
+  justify-content: space-between;
 }
 .description {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.total {
+  background: #c66900;
+  border-radius: 10px;
 }
 p {
   font-style: normal;
@@ -32,7 +45,22 @@ p {
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.154px;
-  color: #097919;
+  color: #292005;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+a {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: -0.154px;
+  color: #f4da16;
   height: 100%;
   width: 100%;
   padding: 0 20px;
@@ -54,7 +82,7 @@ h5 {
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.154px;
-  color: #097919;
+  color: #392101;
   margin: 0;
 }
 h5 {
@@ -62,9 +90,9 @@ h5 {
 }
 button {
   height: 36px;
-  background: #3e2a03;
+  background: hsl(25, 95%, 30%);
   color: rgb(212, 206, 155);
-  width: 100%;
+  width: 700px;
   font-size: 14px;
   border: 0;
   font-weight: 500;

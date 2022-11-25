@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html>
+
+{% block head %}
+<head>
+    <title> Your shopping cart </title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+{% endblock %}
+
+{% block content %}
+<body>
+    {% for price in prices %}
+            <div class="product">
+                <div class="description">
+                    <h2>{{ price }}</h2>
+                    <div>
+                        <select name="currency" class="form-control" id="price_stripe_id">
+                            <option disabled> Цена товара </option>
+                            <option value="usd"> ${{ price.get_cost_usd }} </option>
+                            <option value="eur"> €{{ price.get_cost_eur }} </option>
+                        </select>
+                        <h3> количество: {{ price.quantity }}</h3>
+                        <form action="{% url 'items:add-to-cart' price.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit"> добавить </button>
+                        </form>
+                        <form action="{% url 'items:delete-from-cart' price.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit"> удалить </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+    {% endfor %}
+        <div class="total">
+            <div class="description">
+                <br>
+                <h2> Your total: </h2>
+                <div>
+                    <form action="{% url 'items:buy-order' order.id %}" method="POST">
+                        {% csrf_token %}
+                        <select name="currency" class="form-control" id="total">
+                            <option disabled> Выберите валюту оплаты </option>
+                            <option value="usd"> ${{ total_usd }} </option>
+                            <option value="eur"> €{{ total_eur}} </option>
+                        </select>
+                        <br>
+                        <button type="submit"> Оплатить </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+{% endblock %}
+</html>
