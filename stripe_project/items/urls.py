@@ -1,18 +1,9 @@
 from django.urls import path
-from .views import (
-    CreateSingleCheckoutSessionView,
-    CreateOrderCheckoutSessionView,
-    SuccessView,
-    CancelView,
-    IndexView,
-    stripe_webhook,
-    StripeIntentView,
-    CustomPaymentView,
-    add_to_cart,
-    delete_from_cart,
-    ShowCart,
-    ItemPageView,
-)
+
+from .views import (CancelView, CreateOrderCheckoutSessionView,
+                    CreateSingleCheckoutSessionView, CustomPaymentView,
+                    IndexView, ItemPageView, ShowCart, StripeIntentView,
+                    SuccessView, add_to_cart, delete_from_cart, stripe_webhook)
 
 app_name = 'items'
 

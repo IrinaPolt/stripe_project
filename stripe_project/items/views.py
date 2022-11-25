@@ -1,18 +1,19 @@
 import json
+
 import stripe
 from django.conf import settings
-from django.http import JsonResponse
-from django.views import View
 from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
-from .models import Price, Item, Order, PriceInOrder, Discount
-from django.views.generic import TemplateView
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.views.generic import TemplateView
+
+from .models import Discount, Item, Order, Price, PriceInOrder
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-DOMAIN = 'http://51.250.84.171:8000'
+DOMAIN = 'http://51.250.84.171'
 
 
 class SuccessView(TemplateView):
@@ -103,8 +104,8 @@ class CreateOrderCheckoutSessionView(View):
             discounts=[{'coupon': discount}],
             automatic_tax={'enabled': True},
             shipping_address_collection={
-                    'allowed_countries': ['US'],
-                },
+                'allowed_countries': ['US'],
+            },
             success_url=domain + '/success/',
             cancel_url=domain + '/cancel/',
         )
