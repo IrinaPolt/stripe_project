@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views import View
 from django.contrib import messages
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from .models import Price, Item, Order, PriceInOrder, Discount
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
@@ -154,12 +154,12 @@ def stripe_webhook(request):
 
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
-        customer_email = session["customer_details"]["email"]
-        payment_intent = session["payment_intent"]
+        customer_email = session['customer_details']['email']
+        payment_intent = session['payment_intent']
 
         # TODO - send an email to the customer
 
-    elif event["type"] == "payment_intent.succeeded":
+    elif event['type'] == 'payment_intent.succeeded':
         intent = event['data']['object']
         stripe_customer_id = intent["customer"]
         stripe_customer = stripe.Customer.retrieve(stripe_customer_id)
@@ -176,7 +176,7 @@ class StripeIntentView(View):
         try:
             req_json = json.loads(request.body)
             customer = stripe.Customer.create(email=req_json['email'])
-            price = Price.objects.get(id=self.kwargs["pk"])
+            price = Price.objects.get(id=self.kwargs['pk'])
             intent = stripe.PaymentIntent.create(
                 amount=price.price,
                 currency='usd',
@@ -210,10 +210,13 @@ class CustomPaymentView(TemplateView):
 def add_to_cart(request, pk):
     order, created = Order.objects.get_or_create(user=request.user)
     price = get_object_or_404(Price, pk=pk)
-    pricesinorder, created = PriceInOrder.objects.get_or_create(price=price, order=order)
+    pricesinorder, created = PriceInOrder.objects.get_or_create(
+        price=price,
+        order=order)
     pricesinorder.quantity += 1
     pricesinorder.save()
     return redirect('items:cart')
+
 
 def delete_from_cart(request, pk):
     order = get_object_or_404(Order, user=request.user)
@@ -229,7 +232,7 @@ def delete_from_cart(request, pk):
 
 
 class ShowCart(TemplateView):
-    template_name='items/cart.html'
+    template_name = 'items/cart.html'
 
     def get_context_data(self, **kwargs):
         order = Order.objects.get(user=self.request.user)

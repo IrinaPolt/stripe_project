@@ -79,7 +79,7 @@ class Price(models.Model):
         Discount,
         on_delete=models.DO_NOTHING,
         verbose_name='Скидка',
-        blank = True,
+        blank=True,
     )
 
     class Meta:
@@ -88,7 +88,7 @@ class Price(models.Model):
 
     def get_display_price_usd(self):
         return "{0:.2f}".format(self.price_usd / 100)
-    
+
     def get_display_price_eur(self):
         return "{0:.2f}".format(self.price_eur / 100)
 
@@ -130,12 +130,12 @@ class PriceInOrder(models.Model):
     class Meta:
         verbose_name = 'Товар в заказе'
         verbose_name_plural = 'Товары в заказе'
-    
+
     def __str__(self):
         return self.price.item.name
-    
+
     def get_cost_usd(self):
-        return "{0:.2f}".format(self.price.price_usd * self.quantity / 100) 
+        return "{0:.2f}".format(self.price.price_usd * self.quantity / 100)
 
     def get_cost_eur(self):
-        return "{0:.2f}".format(self.price.price_eur * self.quantity / 100) 
+        return "{0:.2f}".format(self.price.price_eur * self.quantity / 100)

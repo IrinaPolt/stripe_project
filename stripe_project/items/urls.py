@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from .views import (
     CreateSingleCheckoutSessionView,
     CreateOrderCheckoutSessionView,
@@ -24,9 +24,12 @@ urlpatterns = [
     path('success/', SuccessView.as_view(), name='success'),
     path('buy/<pk>/', CreateSingleCheckoutSessionView.as_view(), name='buy'),
     path('get/<pk>/', ItemPageView.as_view(), name='get-item'),
-    path('order/<pk>/', CreateOrderCheckoutSessionView.as_view(), name='buy-order'),
+    path('order/<pk>/', CreateOrderCheckoutSessionView.as_view(),
+         name='buy-order'),
     path('webhooks/stripe/', stripe_webhook, name='stripe-webhook'),
-    path('create-payment-intent/<pk>/', StripeIntentView.as_view(), name='create-payment-intent'),
-    path('custom-payment/', CustomPaymentView.as_view(), name='custom-payment'),
+    path('create-payment-intent/<pk>/', StripeIntentView.as_view(),
+         name='create-payment-intent'),
+    path('custom-payment/', CustomPaymentView.as_view(),
+         name='custom-payment'),
     path('', IndexView.as_view(), name='index'),
 ]
