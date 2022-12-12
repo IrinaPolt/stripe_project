@@ -13,7 +13,7 @@ from .models import Discount, Item, Order, Price, PriceInOrder
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-DOMAIN = 'http://158.160.44.64'
+DOMAIN = 'http://62.84.125.167/'
 
 
 class SuccessView(TemplateView):
