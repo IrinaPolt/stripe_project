@@ -31,7 +31,7 @@
           <button type="submit"> Добавить в корзину </button>
         </form>
       {% else %}
-        <a href="{% url 'login'%}"> Авторизуйтесь для добавления в корзину </a>
+        <a href="{% url 'users:login' %}"> Авторизуйтесь для добавления в корзину </a>
       {% endif %}
   </div>
 </body>
